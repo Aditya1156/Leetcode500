@@ -9,7 +9,7 @@ import {
   doc, getDoc, setDoc
 } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
 import {
-  signInWithPopup, signOut, onAuthStateChanged
+  signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged
 } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js';
 
 class FirebaseDB {
@@ -21,6 +21,11 @@ class FirebaseDB {
 
   // --- Auth ---
   _initAuth() {
+    // Check for redirect result on page load
+    getRedirectResult(auth).catch(err => {
+      console.error('Redirect result error:', err);
+    });
+
     onAuthStateChanged(auth, (user) => {
       this.user = user;
       this._authListeners.forEach(fn => fn(user));
@@ -34,8 +39,9 @@ class FirebaseDB {
 
   async signIn() {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      return result.user;
+      await signInWithRedirect(auth, googleProvider);
+      // User will be redirected to Google sign-in
+      // On return, getRedirectResult in _initAuth will handle the result
     } catch (err) {
       console.error('Sign-in failed:', err);
       throw err;
