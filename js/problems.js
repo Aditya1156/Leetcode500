@@ -9,6 +9,12 @@ let currentFilters = { topic: '', difficulty: '', status: '', priority: '', patt
 let sortState = { column: 'id', direction: 'asc' };
 let rendered = false;
 
+function updateActiveFilterCount() {
+  const count = ['topic', 'difficulty', 'status', 'priority', 'pattern'].filter(k => currentFilters[k]).length;
+  const el = document.getElementById('filter-active-count');
+  if (el) el.textContent = count > 0 ? count : '';
+}
+
 export function renderProblemsPage() {
   if (rendered) return;
   rendered = true;
@@ -49,31 +55,37 @@ function buildHTML() {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" id="filter-search-input" placeholder="Search problems..." autocomplete="off">
       </div>
-      <select id="filter-topic" class="filter-select">
-        <option value="">All Topics</option>
-        ${topics.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join('')}
-      </select>
-      <select id="filter-difficulty" class="filter-select">
-        <option value="">All Difficulty</option>
-        <option value="Easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Hard">Hard</option>
-      </select>
-      <select id="filter-status" class="filter-select">
-        <option value="">All Status</option>
-        <option value="solved">Solved</option>
-        <option value="unsolved">Unsolved</option>
-      </select>
-      <select id="filter-priority" class="filter-select">
-        <option value="">All Priority</option>
-        ${priorities.map(p => `<option value="${escapeHTML(p)}">${escapeHTML(p)}</option>`).join('')}
-      </select>
-      <select id="filter-pattern" class="filter-select">
-        <option value="">All Patterns</option>
-        ${patterns.map(p => `<option value="${escapeHTML(p)}">${escapeHTML(p)}</option>`).join('')}
-      </select>
-      <button class="filter-btn" id="clear-filters-btn">Clear</button>
+      <button class="filter-toggle-btn" id="filter-toggle-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="8" cy="6" r="2" fill="currentColor"/><circle cx="16" cy="12" r="2" fill="currentColor"/><circle cx="10" cy="18" r="2" fill="currentColor"/></svg>
+        Filters <span class="filter-active-count" id="filter-active-count"></span>
+      </button>
       <span class="filter-count" id="filter-count"></span>
+      <div class="filter-options" id="filter-options">
+        <select id="filter-topic" class="filter-select">
+          <option value="">All Topics</option>
+          ${topics.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join('')}
+        </select>
+        <select id="filter-difficulty" class="filter-select">
+          <option value="">All Difficulty</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+        <select id="filter-status" class="filter-select">
+          <option value="">All Status</option>
+          <option value="solved">Solved</option>
+          <option value="unsolved">Unsolved</option>
+        </select>
+        <select id="filter-priority" class="filter-select">
+          <option value="">All Priority</option>
+          ${priorities.map(p => `<option value="${escapeHTML(p)}">${escapeHTML(p)}</option>`).join('')}
+        </select>
+        <select id="filter-pattern" class="filter-select">
+          <option value="">All Patterns</option>
+          ${patterns.map(p => `<option value="${escapeHTML(p)}">${escapeHTML(p)}</option>`).join('')}
+        </select>
+        <button class="filter-btn" id="clear-filters-btn">Clear</button>
+      </div>
     </div>
 
     <div class="problems-table-wrap">
@@ -199,6 +211,7 @@ function bindEvents() {
     document.getElementById(id).addEventListener('change', e => {
       const key = id.replace('filter-', '');
       currentFilters[key] = e.target.value;
+      updateActiveFilterCount();
       renderTable();
     });
   }
@@ -209,7 +222,16 @@ function bindEvents() {
     for (const id of ['filter-topic', 'filter-difficulty', 'filter-status', 'filter-priority', 'filter-pattern']) {
       document.getElementById(id).value = '';
     }
+    updateActiveFilterCount();
     renderTable();
+  });
+
+  // Mobile filter toggle
+  document.getElementById('filter-toggle-btn').addEventListener('click', () => {
+    const options = document.getElementById('filter-options');
+    const btn = document.getElementById('filter-toggle-btn');
+    options.classList.toggle('open');
+    btn.classList.toggle('active');
   });
 
   // Sort

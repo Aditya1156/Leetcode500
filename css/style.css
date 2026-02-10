@@ -619,6 +619,16 @@ a:hover { color: var(--accent-hover); }
   white-space: nowrap;
 }
 
+/* Filter toggle button - hidden on desktop */
+.filter-toggle-btn {
+  display: none;
+}
+
+/* Filter options wrapper - flat on desktop */
+.filter-options {
+  display: contents;
+}
+
 /* ============================================
    Problems Page - Table
    ============================================ */
@@ -1580,9 +1590,58 @@ th.sorted .sort-arrow { opacity: 1; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .stat-card { padding: 16px; }
   .stat-value { font-size: 1.75rem; }
-  .filter-bar { flex-direction: column; top: 52px; }
-  .filter-search { min-width: auto; width: 100%; }
-  .filter-count { margin-left: 0; }
+  .filter-bar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    top: 52px;
+    padding: 10px 12px;
+    gap: 8px;
+    position: sticky;
+  }
+  .filter-search { min-width: auto; flex: 1; min-width: 0; }
+  .filter-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-toggle-btn.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .filter-active-count {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .filter-active-count:empty { display: none; }
+  .filter-count { margin-left: 0; width: 100%; text-align: center; order: 10; }
+  .filter-options {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+    order: 9;
+  }
+  .filter-options.open {
+    display: flex;
+  }
+  .filter-options .filter-select { width: 100%; }
+  .filter-options .filter-btn { width: 100%; }
   .donut-container { flex-direction: column; align-items: center; }
   .topic-card-header { flex-direction: column; gap: 10px; }
   /* Show bottom tab bar */
