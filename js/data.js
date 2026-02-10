@@ -17,8 +17,6 @@ class DataStore {
     this.topicSummary = [];
     this.metadata = {};
     this._listeners = {};
-    this._ready = false;
-    this._syncPending = false;
   }
 
   // --- Event emitter ---
@@ -77,7 +75,6 @@ class DataStore {
     this.metadata = json.metadata;
 
     // User progress is loaded via syncFromCloud() after init()
-    this._ready = true;
     this.emit('ready');
   }
 
@@ -305,9 +302,21 @@ class DataStore {
     this._scheduleCloudSync();
   }
 
+  // --- Flush pending cloud sync immediately ---
+  flushSync() {
+    if (this._syncTimer) {
+      clearTimeout(this._syncTimer);
+      this._syncTimer = null;
+      this._pushToCloud();
+    }
+  }
+
   // --- Clear user progress on sign-out ---
   clearUserProgress() {
     this._resetToBase();
+    localStorage.removeItem(LS_STATUS_KEY);
+    localStorage.removeItem(LS_NOTES_KEY);
+    localStorage.removeItem(LS_STUDYPLAN_KEY);
     this.emit('data-changed');
   }
 

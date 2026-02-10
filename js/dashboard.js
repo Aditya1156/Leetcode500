@@ -5,13 +5,10 @@
 import store from './data.js';
 import { animateValue, getTopicColor, escapeHTML, getDifficultyClass, formatDate, LC_ICON_SVG } from './utils.js';
 
-let rendered = false;
-
 export function renderDashboard() {
   const page = document.getElementById('page-dashboard');
   page.innerHTML = buildHTML();
   animateStats();
-  rendered = true;
 }
 
 export function refreshDashboard() {

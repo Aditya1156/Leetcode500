@@ -6,7 +6,7 @@
 
 import { db, auth, googleProvider } from './firebase-config.js';
 import {
-  doc, getDoc, setDoc, updateDoc
+  doc, getDoc, setDoc
 } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
 import {
   signInWithPopup, signOut, onAuthStateChanged
@@ -140,20 +140,6 @@ class FirebaseDB {
     }
   }
 
-  // --- Partial update (merge) ---
-  async updateProgress(partialData) {
-    const ref = this._docRef();
-    if (!ref) return;
-    try {
-      await updateDoc(ref, {
-        ...partialData,
-        lastUpdated: new Date().toISOString()
-      });
-    } catch (err) {
-      // If document doesn't exist yet, create it
-      await this.saveProgress(partialData);
-    }
-  }
 }
 
 const firebaseDB = new FirebaseDB();

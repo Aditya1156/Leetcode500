@@ -12,6 +12,13 @@ import { debounce, escapeHTML, getDifficultyClass, showToast, LC_ICON_SVG } from
 
 const LS_THEME_KEY = 'lc-tracker-theme';
 
+function isSafeURL(url) {
+  try {
+    const parsed = new URL(url, location.href);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+  } catch { return false; }
+}
+
 // ============================================
 // Router
 // ============================================
@@ -134,7 +141,8 @@ function handleSearchKeydown(e) {
   } else if (e.key === 'Enter') {
     e.preventDefault();
     if (searchActiveIndex >= 0 && searchResults[searchActiveIndex]) {
-      window.open(searchResults[searchActiveIndex].link, '_blank');
+      const link = searchResults[searchActiveIndex].link;
+      if (isSafeURL(link)) window.open(link, '_blank', 'noopener');
       closeSearchModal();
     }
   } else if (e.key === 'Escape') {
@@ -226,7 +234,7 @@ function showSyncIndicator(syncing) {
     indicator.classList.add('syncing');
   } else {
     indicator.classList.remove('syncing');
-    indicator.classList.remove('hidden');
+    indicator.classList.add('hidden');
   }
 }
 
@@ -295,7 +303,7 @@ function bindAppEventListeners() {
     const item = e.target.closest('.search-result-item');
     if (item) {
       const link = item.dataset.link;
-      if (link) window.open(link, '_blank');
+      if (link && isSafeURL(link)) window.open(link, '_blank', 'noopener');
       closeSearchModal();
     }
   });
@@ -333,6 +341,11 @@ function bindAppEventListeners() {
 
   // Listen for data changes
   store.on('data-changed', onDataChanged);
+
+  // Flush pending cloud sync before page unload
+  window.addEventListener('beforeunload', () => {
+    store.flushSync();
+  });
 }
 
 // ============================================
