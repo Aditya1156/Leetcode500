@@ -1591,8 +1591,8 @@ th.sorted .sort-arrow { opacity: 1; }
   .stat-card { padding: 16px; }
   .stat-value { font-size: 1.75rem; }
   .filter-bar {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
     padding: 10px 12px;
     gap: 8px;
     position: static;
@@ -1600,7 +1600,7 @@ th.sorted .sort-arrow { opacity: 1; }
     z-index: auto;
     backdrop-filter: none;
     max-height: 500px;
-    overflow: hidden;
+    overflow: visible;
     transition: max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease, opacity 0.3s ease;
   }
   .filter-bar.scroll-hidden {
@@ -1609,23 +1609,21 @@ th.sorted .sort-arrow { opacity: 1; }
     padding-bottom: 0;
     margin-bottom: 0;
     opacity: 0;
+    overflow: hidden;
     border-color: transparent;
   }
-  .filter-search { min-width: auto; flex: 1; min-width: 0; order: 1; }
+  .filter-search { width: 100%; }
   .filter-toggle-btn { display: none !important; }
   .filter-active-count { display: none; }
-  .filter-count { margin-left: auto; width: auto; text-align: right; order: 2; font-size: 0.7rem; }
+  .filter-count { font-size: 0.7rem; text-align: center; }
   .filter-options,
   .filter-options.open {
     display: flex !important;
-    width: 100%;
     overflow-x: auto;
     flex-wrap: nowrap;
     gap: 6px;
-    order: 9;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding-bottom: 4px;
   }
   .filter-options::-webkit-scrollbar { display: none; }
   .filter-options .filter-select {
