@@ -234,6 +234,23 @@ function bindEvents() {
     btn.classList.toggle('active');
   });
 
+  // Hide filter bar on scroll down, show on scroll up (mobile only)
+  if (window.innerWidth <= 768) {
+    let lastScrollY = window.scrollY;
+    const filterBar = document.querySelector('#page-problems .filter-bar');
+    if (filterBar) {
+      window.addEventListener('scroll', () => {
+        const currentY = window.scrollY;
+        if (currentY > lastScrollY && currentY > 120) {
+          filterBar.classList.add('scroll-hidden');
+        } else {
+          filterBar.classList.remove('scroll-hidden');
+        }
+        lastScrollY = currentY;
+      }, { passive: true });
+    }
+  }
+
   // Sort
   document.querySelectorAll('#page-problems th[data-sort]').forEach(th => {
     th.addEventListener('click', () => {

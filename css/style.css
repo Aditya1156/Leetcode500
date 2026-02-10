@@ -1599,6 +1599,17 @@ th.sorted .sort-arrow { opacity: 1; }
     top: auto;
     z-index: auto;
     backdrop-filter: none;
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease, opacity 0.3s ease;
+  }
+  .filter-bar.scroll-hidden {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    opacity: 0;
+    border-color: transparent;
   }
   .filter-search { min-width: auto; flex: 1; min-width: 0; order: 1; }
   .filter-toggle-btn { display: none !important; }
