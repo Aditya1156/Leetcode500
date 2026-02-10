@@ -1595,8 +1595,10 @@ th.sorted .sort-arrow { opacity: 1; }
     flex-wrap: wrap;
     padding: 10px 12px;
     gap: 8px;
-    position: relative;
+    position: static;
     top: auto;
+    z-index: auto;
+    backdrop-filter: none;
   }
   .filter-search { min-width: auto; flex: 1; min-width: 0; }
   .filter-toggle-btn {
