@@ -1600,40 +1600,13 @@ th.sorted .sort-arrow { opacity: 1; }
     z-index: auto;
     backdrop-filter: none;
   }
-  .filter-search { min-width: auto; flex: 1; min-width: 0; }
-  .filter-toggle-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 9px 12px;
-    background: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    font-family: inherit;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .filter-toggle-btn.active {
-    background: var(--accent-dim);
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-  .filter-active-count {
-    background: var(--accent);
-    color: #fff;
-    font-size: 0.7rem;
-    padding: 1px 6px;
-    border-radius: 10px;
-    font-weight: 600;
-  }
-  .filter-active-count:empty { display: none; }
-  .filter-count { margin-left: auto; width: auto; text-align: right; order: 3; font-size: 0.7rem; }
-  .filter-options {
-    display: none;
+  .filter-search { min-width: auto; flex: 1; min-width: 0; order: 1; }
+  .filter-toggle-btn { display: none !important; }
+  .filter-active-count { display: none; }
+  .filter-count { margin-left: auto; width: auto; text-align: right; order: 2; font-size: 0.7rem; }
+  .filter-options,
+  .filter-options.open {
+    display: flex !important;
     width: 100%;
     overflow-x: auto;
     flex-wrap: nowrap;
@@ -1641,11 +1614,9 @@ th.sorted .sort-arrow { opacity: 1; }
     order: 9;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    padding-bottom: 4px;
   }
   .filter-options::-webkit-scrollbar { display: none; }
-  .filter-options.open {
-    display: flex;
-  }
   .filter-options .filter-select {
     flex: 0 0 auto;
     width: auto;
