@@ -1593,10 +1593,10 @@ th.sorted .sort-arrow { opacity: 1; }
   .filter-bar {
     flex-direction: row;
     flex-wrap: wrap;
-    top: 52px;
     padding: 10px 12px;
     gap: 8px;
-    position: sticky;
+    position: relative;
+    top: auto;
   }
   .filter-search { min-width: auto; flex: 1; min-width: 0; }
   .filter-toggle-btn {
