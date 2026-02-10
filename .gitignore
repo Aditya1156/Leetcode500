@@ -1,0 +1,6 @@
+node_modules/
+.firebase/
+.claude/
+data.json
+DSA_500_Problems_Roadmap.xlsx
+package-lock.json

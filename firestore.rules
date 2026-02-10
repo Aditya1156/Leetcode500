@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Base app data (problems, study plan, topics) - read-only
+    match /appData/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    // User progress - private per user
+    match /users/{userId}/data/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

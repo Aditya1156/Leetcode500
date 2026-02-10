@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA 500 Tracker | LeetCode Progress Dashboard</title>
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Auth Loading Overlay -->
+  <div id="auth-loading">
+    <div class="auth-loading-spinner"></div>
+  </div>
+
+  <!-- Landing Page (shown when not authenticated) -->
+  <section id="landing-page" class="hidden">
+    <div class="landing-container">
+      <header class="landing-header">
+        <div class="nav-brand">
+          <svg class="nav-logo" viewBox="0 0 24 24" width="28" height="28" fill="none">
+            <path d="M6 3l-4 8h5l-3 10 12-14h-6l4-4H6z" fill="#FFA116"/>
+          </svg>
+          <span class="nav-title">DSA <span class="accent">500</span> Tracker</span>
+        </div>
+        <button id="landing-theme-toggle" class="nav-btn" title="Toggle theme">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </header>
+
+      <div class="landing-hero">
+        <div class="landing-hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l-4 8h5l-3 10 12-14h-6l4-4H6z"/></svg>
+          Free & Open Source
+        </div>
+        <h1 class="landing-hero-title">
+          Master DSA with a<br>
+          <span class="accent">Structured 500-Problem</span> Roadmap
+        </h1>
+        <p class="landing-hero-subtitle">
+          Track your progress across 500 curated LeetCode problems. Follow a 6-month study plan covering 16 core topics. All progress synced securely to the cloud.
+        </p>
+        <button id="landing-sign-in-btn" class="landing-cta-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Sign in with Google
+        </button>
+        <p class="landing-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Your progress is saved securely with Firebase
+        </p>
+      </div>
+
+      <div class="landing-features">
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h3>500 Curated Problems</h3>
+          <p>Hand-picked problems covering 16 core DSA topics with difficulty levels and patterns</p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>6-Month Study Plan</h3>
+          <p>Week-by-week structured roadmap from fundamentals to advanced topics</p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3>Cloud Sync</h3>
+          <p>Sign in with Google and access your progress from any device, anytime</p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Track Everything</h3>
+          <p>Daily streaks, weekly goals, personal notes, and detailed analytics dashboard</p>
+        </div>
+      </div>
+
+      <div class="landing-footer">
+        Built for DSA grinders. Sign in to start your journey.
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Bar -->
+  <nav id="navbar" class="hidden">
+    <div class="nav-brand">
+      <svg class="nav-logo" viewBox="0 0 24 24" width="28" height="28" fill="none">
+        <path d="M6 3l-4 8h5l-3 10 12-14h-6l4-4H6z" fill="#FFA116"/>
+      </svg>
+      <span class="nav-title">DSA <span class="accent">500</span> Tracker</span>
+    </div>
+    <div class="nav-links">
+      <a href="#dashboard" class="nav-link active" data-page="dashboard">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="#problems" class="nav-link" data-page="problems">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Problems
+      </a>
+      <a href="#studyplan" class="nav-link" data-page="studyplan">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Study Plan
+      </a>
+      <a href="#topics" class="nav-link" data-page="topics">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Topics
+      </a>
+    </div>
+    <div class="nav-actions">
+      <button id="search-trigger" class="nav-btn" title="Search (Ctrl+K)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="shortcut-badge">Ctrl+K</span>
+      </button>
+      <button id="theme-toggle" class="nav-btn" title="Toggle theme">
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <!-- Auth Area -->
+      <div id="auth-area">
+        <button id="sign-in-btn" class="sign-in-btn" title="Sign in with Google to sync across devices">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Sign In
+        </button>
+        <div id="user-profile" class="user-profile hidden">
+          <button id="sidebar-trigger" class="sidebar-trigger" title="Account">
+            <img id="user-avatar" class="user-avatar" alt="" width="32" height="32" referrerpolicy="no-referrer">
+            <span id="user-avatar-fallback" class="user-avatar-fallback hidden"></span>
+            <span id="sync-indicator" class="sync-indicator hidden" title="Synced to cloud">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </span>
+          </button>
+          <button id="navbar-logout-btn" class="navbar-logout-btn" title="Sign Out">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search Modal -->
+  <div id="search-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content search-modal-content">
+      <div class="search-input-wrap">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="global-search" placeholder="Search problems, topics, patterns..." autocomplete="off">
+        <kbd class="kbd-hint">ESC</kbd>
+      </div>
+      <div id="search-results"></div>
+      <div class="search-footer">
+        <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span>
+        <span><kbd>Enter</kbd> Open</span>
+        <span><kbd>ESC</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main id="app" class="hidden">
+    <section id="page-dashboard" class="page active"></section>
+    <section id="page-problems" class="page"></section>
+    <section id="page-studyplan" class="page"></section>
+    <section id="page-topics" class="page"></section>
+  </main>
+
+  <!-- Mobile Bottom Tab Bar -->
+  <nav id="mobile-tab-bar" class="mobile-tab-bar hidden">
+    <a href="#dashboard" class="mobile-tab nav-link active" data-page="dashboard">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Dashboard</span>
+    </a>
+    <a href="#problems" class="mobile-tab nav-link" data-page="problems">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span>Problems</span>
+    </a>
+    <a href="#studyplan" class="mobile-tab nav-link" data-page="studyplan">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Plan</span>
+    </a>
+    <a href="#topics" class="mobile-tab nav-link" data-page="topics">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>Topics</span>
+    </a>
+  </nav>
+
+  <!-- Profile Sidebar -->
+  <div id="sidebar-backdrop" class="sidebar-backdrop hidden"></div>
+  <aside id="profile-sidebar" class="profile-sidebar">
+    <div class="sidebar-top">
+      <button id="sidebar-close" class="sidebar-close-btn" title="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="sidebar-profile-card">
+        <div class="sidebar-avatar-wrap">
+          <img id="sidebar-avatar" class="sidebar-avatar" alt="" width="72" height="72" referrerpolicy="no-referrer">
+          <span id="sidebar-avatar-fallback" class="sidebar-avatar-fallback hidden"></span>
+          <span class="sidebar-avatar-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+        </div>
+        <span id="user-name" class="sidebar-user-name"></span>
+        <span id="user-email" class="sidebar-user-email"></span>
+      </div>
+    </div>
+    <div class="sidebar-body">
+      <div class="sidebar-section-label">Settings</div>
+      <div class="sidebar-menu-item">
+        <div class="sidebar-menu-icon sync-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="sidebar-menu-text">
+          <span>Cloud Sync</span>
+          <span class="sidebar-menu-desc">Your progress syncs across devices</span>
+        </div>
+        <span class="sidebar-sync-badge">Active</span>
+      </div>
+      <div class="sidebar-menu-item">
+        <div class="sidebar-menu-icon theme-icon">
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </div>
+        <div class="sidebar-menu-text">
+          <span>Theme</span>
+          <span class="sidebar-menu-desc" id="sidebar-theme-label">Dark mode</span>
+        </div>
+        <label class="sidebar-toggle">
+          <input type="checkbox" id="sidebar-theme-switch">
+          <span class="sidebar-toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button id="sign-out-btn" class="sidebar-signout-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+      <div class="sidebar-footer-text">DSA 500 Tracker v1.0</div>
+    </div>
+  </aside>
+
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content logout-modal-content">
+      <div class="logout-modal-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      <h3 class="logout-modal-title">Sign Out?</h3>
+      <p class="logout-modal-text">Your progress is safely saved to the cloud. You can sign back in anytime to continue.</p>
+      <div class="logout-modal-actions">
+        <button id="logout-cancel-btn" class="logout-btn-cancel">Cancel</button>
+        <button id="logout-confirm-btn" class="logout-btn-confirm">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/utils.js"></script>
+  <script type="module" src="js/data.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+  <script type="module" src="js/problems.js"></script>
+  <script type="module" src="js/studyplan.js"></script>
+  <script type="module" src="js/topics.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

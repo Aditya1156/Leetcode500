@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Data to Firestore (One-Time Admin)</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0a0a1a; color: #e4e4ef; padding: 40px; }
+    h1 { color: #FFA116; }
+    button { padding: 12px 24px; background: #FFA116; color: #000; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; margin: 10px 5px 10px 0; }
+    button:hover { background: #FFB347; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #log { background: #111128; padding: 20px; border-radius: 10px; margin-top: 20px; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; max-height: 500px; overflow-y: auto; }
+    .success { color: #22C55E; }
+    .error { color: #EF4743; }
+    .info { color: #3B82F6; }
+  </style>
+</head>
+<body>
+  <h1>Firestore Data Upload</h1>
+  <p>This uploads your problem data from <code>data.json</code> to Firestore so the app doesn't need the local file anymore.</p>
+  <p><strong>Run this once.</strong> After uploading, the app will load all data from Firebase.</p>
+  <button id="upload-btn" onclick="uploadData()">Upload data.json to Firestore</button>
+  <button id="verify-btn" onclick="verifyData()">Verify Upload</button>
+  <div id="log"></div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js';
+    import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCgNBSz_hoU7UPmFyF69QIhMUgeklsRLxo",
+      authDomain: "polaroid-printer-pro.firebaseapp.com",
+      projectId: "polaroid-printer-pro",
+      storageBucket: "polaroid-printer-pro.firebasestorage.app",
+      messagingSenderId: "967814761048",
+      appId: "1:967814761048:web:f2453a8ce3dfcecaa5982d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const logEl = document.getElementById('log');
+
+    function log(msg, cls = '') {
+      logEl.innerHTML += `<span class="${cls}">${msg}</span>\n`;
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    window.uploadData = async function() {
+      const btn = document.getElementById('upload-btn');
+      btn.disabled = true;
+      logEl.innerHTML = '';
+
+      try {
+        log('Fetching data.json...', 'info');
+        const res = await fetch('./data.json');
+        if (!res.ok) throw new Error('data.json not found. Run convert.py first.');
+        const data = await res.json();
+
+        log(`Loaded: ${data.problems.length} problems, ${data.studyPlan.length} study plan entries, ${data.topicSummary.length} topics`, 'info');
+
+        // Upload problems (split into chunks of 200 to stay well under 1MB per doc)
+        const chunkSize = 200;
+        const problemChunks = [];
+        for (let i = 0; i < data.problems.length; i += chunkSize) {
+          problemChunks.push(data.problems.slice(i, i + chunkSize));
+        }
+
+        log(`Uploading ${problemChunks.length} problem chunks...`, 'info');
+        for (let i = 0; i < problemChunks.length; i++) {
+          await setDoc(doc(db, 'appData', `problems_${i}`), {
+            problems: problemChunks[i],
+            chunkIndex: i,
+            totalChunks: problemChunks.length
+          });
+          log(`  Chunk ${i + 1}/${problemChunks.length} uploaded (${problemChunks[i].length} problems)`, 'success');
+        }
+
+        // Upload study plan
+        log('Uploading study plan...', 'info');
+        await setDoc(doc(db, 'appData', 'studyPlan'), {
+          studyPlan: data.studyPlan
+        });
+        log(`  ${data.studyPlan.length} study plan entries uploaded`, 'success');
+
+        // Upload topic summary
+        log('Uploading topic summary...', 'info');
+        await setDoc(doc(db, 'appData', 'topicSummary'), {
+          topicSummary: data.topicSummary
+        });
+        log(`  ${data.topicSummary.length} topics uploaded`, 'success');
+
+        // Upload metadata
+        log('Uploading metadata...', 'info');
+        await setDoc(doc(db, 'appData', 'metadata'), {
+          ...data.metadata,
+          uploadedAt: new Date().toISOString()
+        });
+        log('  Metadata uploaded', 'success');
+
+        log('\n=== UPLOAD COMPLETE ===', 'success');
+        log('Your app will now load data from Firestore instead of data.json.', 'success');
+
+      } catch (err) {
+        log(`ERROR: ${err.message}`, 'error');
+        console.error(err);
+      }
+      btn.disabled = false;
+    };
+
+    window.verifyData = async function() {
+      logEl.innerHTML = '';
+      try {
+        log('Verifying Firestore data...', 'info');
+
+        const metaSnap = await getDoc(doc(db, 'appData', 'metadata'));
+        if (!metaSnap.exists()) {
+          log('No data found in Firestore. Upload first!', 'error');
+          return;
+        }
+        const meta = metaSnap.data();
+        log(`Metadata: ${meta.totalProblems} problems, uploaded at ${meta.uploadedAt}`, 'success');
+
+        // Check problem chunks
+        let totalProblems = 0;
+        let chunkIdx = 0;
+        while (true) {
+          const snap = await getDoc(doc(db, 'appData', `problems_${chunkIdx}`));
+          if (!snap.exists()) break;
+          totalProblems += snap.data().problems.length;
+          chunkIdx++;
+        }
+        log(`Problems: ${totalProblems} across ${chunkIdx} chunks`, 'success');
+
+        const spSnap = await getDoc(doc(db, 'appData', 'studyPlan'));
+        log(`Study Plan: ${spSnap.exists() ? spSnap.data().studyPlan.length : 0} entries`, 'success');
+
+        const tsSnap = await getDoc(doc(db, 'appData', 'topicSummary'));
+        log(`Topics: ${tsSnap.exists() ? tsSnap.data().topicSummary.length : 0} entries`, 'success');
+
+        log('\n=== VERIFICATION COMPLETE ===', 'success');
+      } catch (err) {
+        log(`ERROR: ${err.message}`, 'error');
+      }
+    };
+  </script>
+</body>
+</html>
